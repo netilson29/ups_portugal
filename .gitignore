@@ -1,3 +1,83 @@
+# Python e bytecode
 __pycache__/
+*.py[cod]
+*$py.class
 *.pyc
+
+# Ambientes virtuais e variáveis
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Flask
 instance/
+.webassets-cache
+
+# Banco local (SQLite)
+*.db
+db.sqlite3
+db.sqlite3-journal
+
+# Testes e cobertura
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+
+# Distribuição
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+MANIFEST
+wheels/
+share/python-wheels/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Logs
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDEs e editores
+.idea/
+.vscode/
+.spyderproject
+.spyproject
+.ropeproject
+
+# Jupyter
+.ipynb_checkpoints
+
+# Documentação
+docs/_build/
+site/
+
+# Ferramentas modernas
+.pdm-python
+.pdm-build/
+.pixi
+__pypackages__/
+.ruff_cache/
+.pypirc
+.cursorignore
+.cursorindexingignore
+.marimo/
