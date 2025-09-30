@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacto - UPS Portugal</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Poppins', sans-serif;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    header img {
+      max-width: 120px;
+      margin-bottom: 15px;
+    }
+    header h1 {
+      font-weight: bold;
+      color: #ffb300;
+    }
+    .card {
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .btn-whatsapp {
+      background: #25d366;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 12px 20px;
+      transition: 0.3s;
+    }
+    .btn-whatsapp:hover {
+      background: #1ebe5c;
+    }
+    iframe {
+      border-radius: 12px;
+    }
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <header>
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="UPS Logo">
+      <h1>Entre em Contacto</h1>
+      <p class="lead">Estamos prontos para ajudar no que precisar 🚚</p>
+    </header>
+
+    <!-- Formulário de contacto -->
+    <div class="card shadow p-4">
+      <h2 class="text-warning mb-3">📩 Envie-nos uma mensagem</h2>
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input type="text" class="form-control" placeholder="Seu nome" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" placeholder="Seu email" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mensagem</label>
+          <textarea class="form-control" rows="4" placeholder="Escreva sua mensagem aqui..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-warning fw-bold">Enviar</button>
+      </form>
+    </div>
+
+    <!-- WhatsApp -->
+    <div class="card shadow p-4 text-center">
+      <h2 class="mb-3">📲 Atendimento via WhatsApp</h2>
+      <p>Precisa de resposta rápida? Fale connosco no WhatsApp!</p>
+      <a href="https://wa.me/351939904631?text=Olá%20UPS%20Portugal,%20preciso%20de%20ajuda"
+         target="_blank"
+         class="btn btn-whatsapp btn-lg">💬 Falar no WhatsApp</a>
+    </div>
+
+    <!-- Mapa -->
+    <div class="card shadow p-4">
+      <h2 class="text-warning mb-3">📍 Nossa Localização</h2>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3110.112528228269!2d-9.139!3d38.7169!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19331d0b0a123%3A0x9!2sLisboa!5e0!3m2!1spt-PT!2spt!4v1670000000000"
+              width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <!-- Botão voltar -->
+    <div class="text-center mt-4">
+      <a href="{{ url_for('home') }}" class="btn btn-outline-dark">⬅️ Voltar</a>
+    </div>
+
+    <footer>
+      © 2025 UPS Portugal - Todos os direitos reservados
+    </footer>
+  </div>
+</body>
+</html>

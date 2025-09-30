@@ -1,0 +1,330 @@
+/* -----------------------
+   Reset e base
+----------------------- */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* -----------------------
+   Página Home
+----------------------- */
+body.home {
+    background: linear-gradient(to bottom, #301c0f, #f2a900);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.logo {
+    max-width: 180px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background: white;
+    padding: 8px;
+}
+
+h1 {
+    font-size: 2.4em;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+/* Formulário de rastreio */
+.rastreio-form {
+    margin-top: 20px;
+}
+
+.rastreio-form input {
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: none;
+    width: 250px;
+    max-width: 100%;
+}
+
+.rastreio-form button {
+    padding: 12px 25px;
+    font-size: 1em;
+    margin-left: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #f2a900;
+    color: #301c0f;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.rastreio-form button:hover {
+    background: #ffcc33;
+}
+
+/* Botão WhatsApp */
+.whatsapp-btn {
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    background: #25d366;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+.whatsapp-btn:hover {
+    background: #1ebe5c;
+}
+
+/* -----------------------
+   Página Rastreio
+----------------------- */
+body.rastreio {
+    background: #f9f9f9;
+    color: #333;
+    padding: 25px;
+}
+
+.dados, .historico, .sobre-info, .valores, .contacto {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.historico {
+    background: #fff4d6;
+}
+
+.historico ul {
+    list-style: none;
+    padding: 0;
+}
+
+.historico li {
+    margin: 6px 0;
+    padding: 8px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mapa {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.mapa img {
+    border-radius: 10px;
+    max-width: 100%;
+}
+
+.voltar-btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #301c0f;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    transition: 0.3s;
+}
+.voltar-btn:hover {
+    background: #5a3823;
+}
+
+/* Info Cards (Cliente e Encomenda) */
+.info-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+.info-label {
+    font-weight: 600;
+    color: #555;
+}
+.highlight {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #212529;
+}
+
+/* Badges */
+.badge-peso {
+    background-color: #0d6efd;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+.badge-taxa {
+    background-color: #198754;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+/* -----------------------
+   Página Sobre
+----------------------- */
+body.sobre {
+    background: #fefefe;
+    color: #333;
+    padding: 25px;
+    line-height: 1.6;
+}
+
+.valores {
+    background: #fff4d6;
+}
+
+/* -----------------------
+   Admin Dashboard
+----------------------- */
+body.admin {
+    background: #f4f6f8;
+    color: #222;
+    padding: 15px;
+}
+
+.admin header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.admin header .logo {
+    max-width: 90px;
+    background: white;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.sair-btn {
+    text-decoration: none;
+    padding: 8px 12px;
+    background: #301c0f;
+    color: white;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+.sair-btn:hover {
+    background: #5a3823;
+}
+
+.admin-container {
+    margin-top: 20px;
+}
+
+.forms {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    flex: 1 1 300px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #301c0f;
+}
+
+.card form input,
+.card form select,
+.card form textarea {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 0.95em;
+}
+
+.card form button {
+    background: #f2a900;
+    color: #301c0f;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: 0.3s;
+}
+.card form button:hover {
+    background: #ffcc33;
+}
+
+.lista table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lista table th,
+.lista table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.danger-btn {
+    display: inline-block;
+    padding: 6px 10px;
+    background: #d9534f;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85em;
+}
+.danger-btn:hover {
+    background: #b52b2b;
+}
+
+/* Flash messages */
+.flash-area .flash {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 0.9em;
+}
+.flash.success { background: #e6f4ea; color: #116633; }
+.flash.danger { background: #fdecea; color: #b52b2b; }
+.flash.warning { background: #fff4d6; color: #7a5a00; }
+
+/* -----------------------
+   Responsividade
+----------------------- */
+@media (max-width: 768px) {
+    .rastreio-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .rastreio-form button {
+        margin-left: 0;
+    }
+    .forms {
+        flex-direction: column;
+    }
+}

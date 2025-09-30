@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobre - UPS Portugal</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    header img {
+      max-width: 120px;
+      margin-bottom: 15px;
+    }
+    header h1 {
+      font-weight: bold;
+      color: #ffb300;
+    }
+    .card {
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .valores li {
+      margin: 8px 0;
+      font-size: 1.1rem;
+    }
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <header>
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="UPS Logo">
+      <h1>Sobre a UPS Portugal</h1>
+    </header>
+
+    <div class="card shadow p-4">
+      <p>
+        A <strong>UPS Portugal</strong> é especializada em soluções de transporte e logística.
+        Estamos presentes em todo o território nacional, garantindo entregas com qualidade, confiança e eficiência.
+      </p>
+      <p>
+        Com tecnologia avançada de rastreamento, nossos clientes acompanham cada etapa da encomenda:
+        desde a coleta até a chegada ao destino final.
+      </p>
+      <p>
+        Nosso compromisso é simples: <strong>Conectar pessoas e negócios com confiança.</strong>
+      </p>
+    </div>
+
+    <div class="card shadow p-4">
+      <h2 class="text-warning">Nossos Valores</h2>
+      <ul class="valores list-unstyled mt-3">
+        <li>⚡ Rapidez</li>
+        <li>🔒 Segurança</li>
+        <li>✅ Confiabilidade</li>
+        <li>💡 Inovação</li>
+        <li>🤝 Atendimento personalizado</li>
+      </ul>
+    </div>
+
+    <div class="card shadow p-4 text-center">
+      <h2 class="mb-3">Entre em contacto</h2>
+      <p>Tem dúvidas? Precisa de suporte? Fale connosco diretamente no WhatsApp.</p>
+      <a href="https://wa.me/351939904631?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20a%20UPS%20Portugal"
+         target="_blank"
+         class="btn btn-success btn-lg fw-bold">📲 Falar no WhatsApp</a>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{{ url_for('home') }}" class="btn btn-outline-dark">⬅️ Voltar</a>
+    </div>
+
+    <footer>
+      © 2025 UPS Portugal - Todos os direitos reservados
+    </footer>
+  </div>
+</body>
+</html>y
+
