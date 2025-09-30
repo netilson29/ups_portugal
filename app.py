@@ -2,18 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from functools import wraps
-import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'troca_esta_chave_para_producao'  # ⚠️ Troca depois por uma chave segura
 
 # -----------------------
-# Configuração do Banco de Dados
+# Configuração do Banco de Dados (Supabase)
 # -----------------------
-# Render usa DATABASE_URL, no local usamos PostgreSQL também
-db_url = os.getenv("DATABASE_URL", "postgresql+psycopg2://admin:admin123@localhost/ups_portugal")
+db_url = "postgresql+psycopg2://postgres:AristidesKingFaleiro@db.caywyzsjoijuklfueirw.supabase.co:5432/postgres"
 
-# Corrige URL se vier com "postgres://" (Render costuma mandar assim)
+# Corrige URL se vier com "postgres://"
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql+psycopg2://", 1)
 
