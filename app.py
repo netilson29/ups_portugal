@@ -15,7 +15,6 @@ db_url = os.getenv("DATABASE_URL")
 if not db_url:
     raise RuntimeError("❌ DATABASE_URL não está definida no ambiente!")
 
-# Corrige URL se vier com "postgres://"
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql+psycopg2://", 1)
 
@@ -43,12 +42,12 @@ class Order(db.Model):
     origin = db.Column(db.String(120))
     destination = db.Column(db.String(120))
     weight = db.Column(db.String(50))
-    taxa = db.Column(db.String(50))         # 💰 Taxa
-    destinatario = db.Column(db.String(120)) # 📦 Destinatário
-    despachante = db.Column(db.String(120)) # 📋 Despachante
-    morada = db.Column(db.String(250))      # 🏠 Morada
+    taxa = db.Column(db.String(50))
+    destinatario = db.Column(db.String(120))
+    despachante = db.Column(db.String(120))
+    morada = db.Column(db.String(250))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    history = db.Column(db.Text)            # Histórico separado por linhas
+    history = db.Column(db.Text)
     lat = db.Column(db.Float)
     lng = db.Column(db.Float)
 
@@ -163,18 +162,10 @@ def add_order():
     lat = request.form.get("lat")
     lng = request.form.get("lng")
 
-    if not tracking_code or not client_id:
-        flash("Código de rastreio e cliente são obrigatórios.", "danger")
-        return redirect(url_for("admin_dashboard"))
-
-    if Order.query.filter_by(tracking_code=tracking_code).first():
-        flash("Já existe uma encomenda com esse código.", "danger")
-        return redirect(url_for("admin_dashboard"))
-
     order = Order(
         tracking_code=tracking_code,
-        client_id=int(client_id),
-        status=status or "Em trânsito",
+        client_id=client_id,
+        status=status,
         origin=origin,
         destination=destination,
         weight=weight,
@@ -183,8 +174,8 @@ def add_order():
         despachante=despachante,
         morada=morada,
         history=history,
-        lat=float(lat) if lat else None,
-        lng=float(lng) if lng else None
+        lat=lat,
+        lng=lng
     )
     db.session.add(order)
     db.session.commit()
