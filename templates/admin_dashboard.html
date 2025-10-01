@@ -29,38 +29,14 @@
     {% endwith %}
 
     <div class="row">
-      <!-- Adicionar Cliente -->
-      <div class="col-md-6 mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title text-warning">➕ Adicionar Cliente</h5>
-            <form action="{{ url_for('add_client') }}" method="POST">
-              <input type="text" name="name" class="form-control mb-2" placeholder="Nome" required>
-              <input type="text" name="address" class="form-control mb-2" placeholder="Morada">
-              <input type="text" name="phone" class="form-control mb-2" placeholder="Telefone">
-              <input type="email" name="email" class="form-control mb-2" placeholder="Email">
-              <button type="submit" class="btn btn-warning w-100 fw-bold">Salvar Cliente</button>
-            </form>
-          </div>
-        </div>
-      </div>
-
       <!-- Adicionar Encomenda -->
-      <div class="col-md-6 mb-4">
+      <div class="col-md-12 mb-4">
         <div class="card shadow-sm">
           <div class="card-body">
             <h5 class="card-title text-warning">📦 Adicionar Encomenda</h5>
             <form action="{{ url_for('add_order') }}" method="POST">
               <input type="text" name="tracking_code" class="form-control mb-2" placeholder="Código de rastreio (ex: UPS12345PT)" required>
-
-              <label class="form-label">Cliente:</label>
-              <select name="client_id" class="form-select mb-2" required>
-                <option value="">-- Seleciona um cliente --</option>
-                {% for c in clients %}
-                  <option value="{{ c.id }}">{{ c.name }} (ID: {{ c.id }})</option>
-                {% endfor %}
-              </select>
-
+              <input type="text" name="client" class="form-control mb-2" placeholder="Nome do cliente" required>
               <input type="text" name="status" class="form-control mb-2" placeholder="Status (ex: Em trânsito)">
               <input type="text" name="origin" class="form-control mb-2" placeholder="Origem">
               <input type="text" name="destination" class="form-control mb-2" placeholder="Destino">
@@ -69,9 +45,7 @@
               <input type="text" name="destinatario" class="form-control mb-2" placeholder="Destinatário">
               <input type="text" name="despachante" class="form-control mb-2" placeholder="Despachante">
               <input type="text" name="morada" class="form-control mb-2" placeholder="Morada de entrega">
-
               <textarea name="history" class="form-control mb-2" placeholder="Histórico (cada linha = um evento)"></textarea>
-
               <div class="row">
                 <div class="col-md-6">
                   <input type="text" name="lat" class="form-control mb-2" placeholder="Latitude (opcional)">
@@ -80,7 +54,6 @@
                   <input type="text" name="lng" class="form-control mb-2" placeholder="Longitude (opcional)">
                 </div>
               </div>
-
               <button type="submit" class="btn btn-warning w-100 fw-bold">Salvar Encomenda</button>
             </form>
           </div>
@@ -96,7 +69,6 @@
           <table class="table table-bordered table-hover align-middle">
             <thead class="table-dark">
               <tr>
-                <th>ID</th>
                 <th>Código</th>
                 <th>Cliente</th>
                 <th>Status</th>
@@ -113,24 +85,23 @@
             <tbody>
               {% for o in orders %}
                 <tr>
-                  <td>{{ o.id }}</td>
-                  <td>{{ o.tracking_code }}</td>
-                  <td>{{ o.client.name }}</td>
-                  <td>{{ o.status }}</td>
-                  <td>{{ o.weight }}</td>
-                  <td>{{ o.taxa }}</td>
-                  <td>{{ o.destinatario }}</td>
-                  <td>{{ o.despachante }}</td>
-                  <td>{{ o.morada }}</td>
-                  <td>{{ o.destination }}</td>
-                  <td>{{ o.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                  <td>{{ o["tracking_code"] }}</td>
+                  <td>{{ o["client"] }}</td>
+                  <td>{{ o["status"] }}</td>
+                  <td>{{ o["weight"] }}</td>
+                  <td>{{ o["taxa"] }}</td>
+                  <td>{{ o["destinatario"] }}</td>
+                  <td>{{ o["despachante"] }}</td>
+                  <td>{{ o["morada"] }}</td>
+                  <td>{{ o["destination"] }}</td>
+                  <td>{{ o["created_at"] }}</td>
                   <td>
-                    <a href="{{ url_for('delete_order', id=o.id) }}" class="btn btn-sm btn-danger"
+                    <a href="{{ url_for('delete_order', codigo=o['tracking_code']) }}" class="btn btn-sm btn-danger"
                        onclick="return confirm('Remover encomenda?')">Apagar</a>
                   </td>
                 </tr>
               {% else %}
-                <tr><td colspan="12" class="text-center">Nenhuma encomenda cadastrada.</td></tr>
+                <tr><td colspan="11" class="text-center">Nenhuma encomenda cadastrada.</td></tr>
               {% endfor %}
             </tbody>
           </table>

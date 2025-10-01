@@ -1,55 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from functools import wraps
-import os
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'troca_esta_chave_para_producao'  # ⚠️ Troca depois por uma chave segura
-
-# -----------------------
-# Configuração do Banco de Dados (Supabase via variável de ambiente)
-# -----------------------
-db_url = os.getenv("DATABASE_URL")
-
-if not db_url:
-    raise RuntimeError("❌ DATABASE_URL não está definida no ambiente!")
-
-if db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql+psycopg2://", 1)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
-# -----------------------
-# Models
-# -----------------------
-class Client(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    address = db.Column(db.String(250))
-    phone = db.Column(db.String(50))
-    email = db.Column(db.String(120))
-    orders = db.relationship('Order', backref='client', lazy=True)
-
-class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    tracking_code = db.Column(db.String(80), unique=True, nullable=False)
-    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
-    status = db.Column(db.String(80), default='Em trânsito')
-    origin = db.Column(db.String(120))
-    destination = db.Column(db.String(120))
-    weight = db.Column(db.String(50))
-    taxa = db.Column(db.String(50))
-    destinatario = db.Column(db.String(120))
-    despachante = db.Column(db.String(120))
-    morada = db.Column(db.String(250))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    history = db.Column(db.Text)
-    lat = db.Column(db.Float)
-    lng = db.Column(db.Float)
 
 # -----------------------
 # Helpers
@@ -62,6 +17,14 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated
 
+def carregar_dados():
+    with open("dados.json", "r") as f:
+        return json.load(f)
+
+def salvar_dados(dados):
+    with open("dados.json", "w") as f:
+        json.dump(dados, f, indent=4)
+
 # -----------------------
 # Rotas públicas
 # -----------------------
@@ -71,31 +34,32 @@ def home():
 
 @app.route("/rastreio", methods=["POST"])
 def rastreio():
-    codigo = (request.form.get("codigo") or "").strip()
+    codigo = (request.form.get("codigo") or "").strip().lower()
+    dados_json = carregar_dados()
     order = None
-    if codigo:
-        order = Order.query.filter_by(tracking_code=codigo).first()
-    if not order and codigo:
-        order = Order.query.join(Client).filter(Client.name.ilike(f"%{codigo}%")).first()
+    for o in dados_json["orders"]:
+        if o["tracking_code"].lower() == codigo or o["client"].lower() == codigo:
+            order = o
+            break
     if not order:
         flash("Encomenda não encontrada.", "warning")
         return redirect(url_for("home"))
 
     dados = {
-        "cliente": order.client.name,
-        "codigo": order.tracking_code,
-        "status": order.status,
-        "origem": order.origin,
-        "destino": order.destination,
-        "peso": order.weight,
-        "taxa": order.taxa,
-        "destinatario": order.destinatario,
-        "despachante": order.despachante,
-        "morada": order.morada,
-        "data": order.created_at.strftime("%d/%m/%Y %H:%M"),
-        "historico": order.history.splitlines() if order.history else [],
-        "lat": order.lat,
-        "lng": order.lng
+        "cliente": order["client"],
+        "codigo": order["tracking_code"],
+        "status": order["status"],
+        "origem": order["origin"],
+        "destino": order["destination"],
+        "peso": order["weight"],
+        "taxa": order["taxa"],
+        "destinatario": order["destinatario"],
+        "despachante": order["despachante"],
+        "morada": order["morada"],
+        "data": order["created_at"],
+        "historico": order["history"],
+        "lat": order["lat"],
+        "lng": order["lng"]
     }
     return render_template("rastreio.html", dados=dados)
 
@@ -125,69 +89,41 @@ def admin_login():
 @app.route("/admin/dashboard")
 @admin_required
 def admin_dashboard():
-    clients = Client.query.order_by(Client.name).all()
-    orders = Order.query.order_by(Order.created_at.desc()).all()
-    return render_template("admin_dashboard.html", clients=clients, orders=orders)
-
-@app.route("/admin/add_client", methods=["POST"])
-@admin_required
-def add_client():
-    name = request.form.get("name")
-    address = request.form.get("address")
-    phone = request.form.get("phone")
-    email = request.form.get("email")
-    if not name:
-        flash("O nome do cliente é obrigatório.", "danger")
-        return redirect(url_for("admin_dashboard"))
-    client = Client(name=name, address=address, phone=phone, email=email)
-    db.session.add(client)
-    db.session.commit()
-    flash("Cliente adicionado com sucesso.", "success")
-    return redirect(url_for("admin_dashboard"))
+    dados_json = carregar_dados()
+    orders = dados_json["orders"]
+    return render_template("admin_dashboard.html", orders=orders)
 
 @app.route("/admin/add_order", methods=["POST"])
 @admin_required
 def add_order():
-    tracking_code = request.form.get("tracking_code")
-    client_id = request.form.get("client_id")
-    status = request.form.get("status")
-    origin = request.form.get("origin")
-    destination = request.form.get("destination")
-    weight = request.form.get("weight")
-    taxa = request.form.get("taxa")
-    destinatario = request.form.get("destinatario")
-    despachante = request.form.get("despachante")
-    morada = request.form.get("morada")
-    history = request.form.get("history")
-    lat = request.form.get("lat")
-    lng = request.form.get("lng")
-
-    order = Order(
-        tracking_code=tracking_code,
-        client_id=client_id,
-        status=status,
-        origin=origin,
-        destination=destination,
-        weight=weight,
-        taxa=taxa,
-        destinatario=destinatario,
-        despachante=despachante,
-        morada=morada,
-        history=history,
-        lat=lat,
-        lng=lng
-    )
-    db.session.add(order)
-    db.session.commit()
+    dados_json = carregar_dados()
+    new_order = {
+        "tracking_code": request.form.get("tracking_code"),
+        "client": request.form.get("client"),
+        "status": request.form.get("status"),
+        "origin": request.form.get("origin"),
+        "destination": request.form.get("destination"),
+        "weight": request.form.get("weight"),
+        "taxa": request.form.get("taxa"),
+        "destinatario": request.form.get("destinatario"),
+        "despachante": request.form.get("despachante"),
+        "morada": request.form.get("morada"),
+        "created_at": datetime.utcnow().strftime("%d/%m/%Y %H:%M"),
+        "history": request.form.get("history").splitlines(),
+        "lat": float(request.form.get("lat") or 0),
+        "lng": float(request.form.get("lng") or 0)
+    }
+    dados_json["orders"].append(new_order)
+    salvar_dados(dados_json)
     flash("Encomenda adicionada com sucesso.", "success")
     return redirect(url_for("admin_dashboard"))
 
-@app.route("/admin/delete_order/<int:id>")
+@app.route("/admin/delete_order/<string:codigo>")
 @admin_required
-def delete_order(id):
-    order = Order.query.get_or_404(id)
-    db.session.delete(order)
-    db.session.commit()
+def delete_order(codigo):
+    dados_json = carregar_dados()
+    dados_json["orders"] = [o for o in dados_json["orders"] if o["tracking_code"] != codigo]
+    salvar_dados(dados_json)
     flash("Encomenda removida.", "success")
     return redirect(url_for("admin_dashboard"))
 
@@ -201,6 +137,4 @@ def admin_logout():
 # Run
 # -----------------------
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(host="0.0.0.0", port=5000, debug=True)

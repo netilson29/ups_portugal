@@ -1,0 +1,23 @@
+{
+    "orders": [
+        {
+            "tracking_code": "UPS12345PT",
+            "client": "Aristides Faleiro",
+            "status": "Em Tr\u00e2nsito ",
+            "origin": "Porto",
+            "destination": "Lisboa",
+            "weight": "0,50kg",
+            "taxa": "300\u20ac",
+            "destinatario": "Manuel da Silva",
+            "despachante": "Aristides ",
+            "morada": "Rua Ant\u00f3nio Pereira ",
+            "created_at": "01/10/2025 11:52",
+            "history": [
+                "Saiu de Portugal ",
+                "A caminho de Lisboa"
+            ],
+            "lat": 0.0,
+            "lng": 0.0
+        }
+    ]
+}
