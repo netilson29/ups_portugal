@@ -71,6 +71,11 @@ def sobre():
 def contacto():
     return render_template("contacto.html")
 
+# ✅ Rota de monitoramento para Uptime Robot
+@app.route("/health")
+def health():
+    return "UP", 200
+
 # -----------------------
 # Admin
 # -----------------------
